@@ -61,6 +61,11 @@ app.post('/sms', (req, res) => {
 });
 
 app.post('/sms-reply', (req, res) => {
+  console.log(req.body);
+
+  console.log("======================");
+  console.log(req);
+  
   res.json({message: 'testing', body: req.body});
 })
 
