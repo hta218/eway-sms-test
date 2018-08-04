@@ -11,6 +11,8 @@ app.use(bodyParser.json());
 const base = new Airtable({apiKey: configs.airtable.apiKey}).base("apprdRz3g2BNFzkj6")(configs.airtable.tableName);
 
 app.get('/', (req, res) => {
+  console.log('Testing server logs');
+  
   base.select({
     view: 'Grid view'
   }).firstPage((err, records) => {
