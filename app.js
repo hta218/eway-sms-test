@@ -62,6 +62,9 @@ app.post('/sms-reply', (req, res) => {
   res.json({message: 'testing', body: req.body});
 })
 
-app.listen('3434', () => {
-  console.log("Node app is running on port 3434");
+
+const port = process.env.PORT || 3434;
+
+app.listen(port, () => {
+  console.log(`Node app is running on port ${port}`);
 });
