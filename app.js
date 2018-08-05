@@ -62,13 +62,33 @@ app.post('/sms', (req, res) => {
 
 app.post('/sms-reply', (req, res) => {
   console.log(req.body);
-
-  console.log("======================");
-  console.log(req);
   
-  res.json({message: 'testing', body: req.body});
-})
+  userPhone = configs.standardisePhoneNumber(req.body.Phone);
 
+  base.select({
+    filterByFormula: `Phone=${userPhone}`,
+    view: 'Grid view'
+  }).firstPage((err, users) => {
+    if (err) {
+      res.status(500).json({message: "Failed to fetch users", err});
+    } else if (users.length === 0) {
+      res.status(404).json({message: 'User not found'});
+    } else {
+      foundUser = users[0];
+      base.update(
+        foundUser.id, 
+        {'Tin nhắn trả lời': req.body.Content}, 
+        (err, updatedUser) => {
+          if (err) {
+            res.status(500).json({err});
+          } else {
+            res.status(200).json({message: 'User reply saved!'});
+          }
+        }
+      );
+    }
+  });
+});
 
 const port = process.env.PORT || 3434;
 
