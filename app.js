@@ -63,7 +63,7 @@ app.post('/sms', (req, res) => {
 app.post('/sms-reply', (req, res) => {
   console.log(req.body);
   
-  userPhone = configs.standardisePhoneNumber(req.body.Phone);
+  userPhone = configs.standardisePhoneNumber(req.body.phone);
 
   base.select({
     filterByFormula: `Phone=${userPhone}`,
@@ -77,7 +77,7 @@ app.post('/sms-reply', (req, res) => {
       foundUser = users[0];
       base.update(
         foundUser.id, 
-        {'Tin nhắn trả lời': req.body.Content}, 
+        {'Tin nhắn trả lời': req.body.content}, 
         (err, updatedUser) => {
           if (err) {
             res.status(500).json({err});
